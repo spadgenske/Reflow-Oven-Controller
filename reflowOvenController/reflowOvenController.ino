@@ -1,11 +1,9 @@
 /*******************************************************************************
 * Title: Reflow Oven Controller
-* Version: 1.20
-* Date: 26-11-2012
-* Company: Rocket Scream Electronics
+* Version: 1.0
+* Date: 1/16/2016s
 * Author: Lim Phang Moh
-* Website: www.rocketscream.com
-* 
+* Modified by Tyler Spadgenske
 * Brief
 * =====
 * This is an example firmware for our Arduino compatible reflow oven controller. 
@@ -289,7 +287,8 @@ void setup()
 
   // Serial communication at 57600 bps
   Serial.begin(57600);
-
+  Serial.print("Reflow Oven 1.0\n");
+  Serial.print("+++++++++++++++\n");
   // Turn off LED (active low)
   digitalWrite(ledRedPin, HIGH);
   #ifdef  USE_MAX6675
@@ -418,6 +417,9 @@ void loop()
         reflowOvenPID.SetMode(AUTOMATIC);
         // Proceed to preheat stage
         reflowState = REFLOW_STATE_PREHEAT;
+        Serial.print("+++++++++++\n");
+        Serial.print("  preHeat\n");
+        Serial.print("+++++++++++\n");
       }
     }
     break;
@@ -434,7 +436,10 @@ void loop()
       // Ramp up to first section of soaking temperature
       setpoint = TEMPERATURE_SOAK_MIN + SOAK_TEMPERATURE_STEP;   
       // Proceed to soaking state
-      reflowState = REFLOW_STATE_SOAK; 
+      reflowState = REFLOW_STATE_SOAK;
+      Serial.print("+++++++++++\n");
+      Serial.print("  Soak\n");
+      Serial.print("+++++++++++\n"); 
     }
     break;
 
@@ -453,6 +458,9 @@ void loop()
         setpoint = TEMPERATURE_REFLOW_MAX;   
         // Proceed to reflowing state
         reflowState = REFLOW_STATE_REFLOW; 
+        Serial.print("+++++++++++\n");
+        Serial.print("  Reflow\n");
+        Serial.print("+++++++++++\n");
       }
     }
     break; 
@@ -468,6 +476,9 @@ void loop()
       setpoint = TEMPERATURE_COOL_MIN;   
       // Proceed to cooling state
       reflowState = REFLOW_STATE_COOL; 
+      Serial.print("+++++++++++\n");
+      Serial.print("  Cool\n");
+      Serial.print("+++++++++++\n");
     }
     break;   
 
@@ -486,6 +497,9 @@ void loop()
       reflowStatus = REFLOW_STATUS_OFF;                
       // Proceed to reflow Completion state
       reflowState = REFLOW_STATE_COMPLETE; 
+      Serial.print("+++++++++++\n");
+      Serial.print("  Complete\n");
+      Serial.print("+++++++++++\n");
     }         
     break;    
 
