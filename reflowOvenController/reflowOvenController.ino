@@ -139,7 +139,7 @@ typedef enum DEBOUNCE_STATE
 
 // ***** CONSTANTS *****
 #define TEMPERATURE_ROOM 50
-#define TEMPERATURE_SOAK_MIN 150
+#define TEMPERATURE_SOAK_MIN 147
 #define TEMPERATURE_SOAK_MAX 200
 #define TEMPERATURE_REFLOW_MAX 250
 #define TEMPERATURE_COOL_MIN 100
@@ -150,7 +150,7 @@ typedef enum DEBOUNCE_STATE
 
 // ***** PID PARAMETERS *****
 // ***** PRE-HEAT STAGE *****
-#define PID_KP_PREHEAT 100
+#define PID_KP_PREHEAT 150
 #define PID_KI_PREHEAT 0.025
 #define PID_KD_PREHEAT 20
 // ***** SOAKING STAGE *****
@@ -191,7 +191,7 @@ unsigned char degree[8]  = {
   int lcdD5Pin = A2;
   int lcdD6Pin = 11;
   int lcdD7Pin = A3;
-  int ledRedPin = 4;
+  int ledRedPin = 2;
   int buzzerPin = 6;
   int switchPin = A0;
 #else
@@ -264,6 +264,14 @@ void setup()
   // LED pins initialization and turn on upon start-up (active low)
   digitalWrite(ledRedPin, LOW);
   pinMode(ledRedPin, OUTPUT);
+  pinMode(3, OUTPUT);
+  pinMode(4, OUTPUT);
+  pinMode(A4, OUTPUT);
+  pinMode(A5, OUTPUT);
+  digitalWrite(3, HIGH);
+  digitalWrite(4, HIGH);
+  digitalWrite(A4, HIGH);
+  digitalWrite(A5, HIGH);
   #ifdef USE_MAX6675
     // LED pins initialization and turn on upon start-up (active low)
     digitalWrite(ledGreenPin, LOW); 
@@ -420,6 +428,7 @@ void loop()
         Serial.print("+++++++++++\n");
         Serial.print("  preHeat\n");
         Serial.print("+++++++++++\n");
+        digitalWrite(3, LOW);
       }
     }
     break;
@@ -439,7 +448,9 @@ void loop()
       reflowState = REFLOW_STATE_SOAK;
       Serial.print("+++++++++++\n");
       Serial.print("  Soak\n");
-      Serial.print("+++++++++++\n"); 
+      Serial.print("+++++++++++\n");
+      digitalWrite(3, HIGH);
+      digitalWrite(4, LOW); 
     }
     break;
 
@@ -461,6 +472,8 @@ void loop()
         Serial.print("+++++++++++\n");
         Serial.print("  Reflow\n");
         Serial.print("+++++++++++\n");
+        digitalWrite(A4, LOW);
+        digitalWrite(4, HIGH);
       }
     }
     break; 
@@ -479,6 +492,8 @@ void loop()
       Serial.print("+++++++++++\n");
       Serial.print("  Cool\n");
       Serial.print("+++++++++++\n");
+      digitalWrite(A4, HIGH);
+      digitalWrite(A5, LOW);
     }
     break;   
 
@@ -500,6 +515,7 @@ void loop()
       Serial.print("+++++++++++\n");
       Serial.print("  Complete\n");
       Serial.print("+++++++++++\n");
+      digitalWrite(A5, HIGH);
     }         
     break;    
 
