@@ -150,8 +150,8 @@ typedef enum DEBOUNCE_STATE
 
 // ***** PID PARAMETERS *****
 // ***** PRE-HEAT STAGE *****
-#define PID_KP_PREHEAT 150
-#define PID_KI_PREHEAT 0.025
+#define PID_KP_PREHEAT 200
+#define PID_KI_PREHEAT 0.55
 #define PID_KD_PREHEAT 20
 // ***** SOAKING STAGE *****
 #define PID_KP_SOAK 300
